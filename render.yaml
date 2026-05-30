@@ -1,0 +1,46 @@
+services:
+  # Backend API
+  - type: web
+    name: talentiq-backend
+    runtime: node
+    region: oregon
+    plan: free
+    branch: main
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: DB_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: STREAM_API_KEY
+        value: your_stream_api_key
+      - key: STREAM_API_SECRET
+        value: your_stream_api_secret
+      - key: CLIENT_URL
+        sync: false
+
+  # Frontend Static Site
+  - type: web
+    name: talentiq-frontend
+    runtime: static
+    region: oregon
+    plan: free
+    branch: main
+    rootDir: frontend
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_CLERK_PUBLISHABLE_KEY
+        sync: false
+      - key: VITE_API_URL
+        sync: false
