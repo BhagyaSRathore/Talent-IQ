@@ -7,6 +7,8 @@ export async function createSession(req, res) {
     const userId = req.user._id;
     const clerkId = req.user.clerkId;
 
+    console.log("Creating session:", { problem, difficulty, userId, clerkId });
+
     if (!problem || !difficulty) {
       return res.status(400).json({ message: "Problem and difficulty are required" });
     }
@@ -14,30 +16,44 @@ export async function createSession(req, res) {
     // generate a unique call id for stream video
     const callId = `session_${Date.now()}_${Math.random().toString(36).substring(7)}`;
 
+    console.log("Generated callId:", callId);
+
     // create session in db
     const session = await Session.create({ problem, difficulty, host: userId, callId });
+    console.log("✅ Session created in DB:", session._id);
 
-    // create stream video call
-    await streamClient.video.call("default", callId).getOrCreate({
-      data: {
-        created_by_id: clerkId,
-        custom: { problem, difficulty, sessionId: session._id.toString() },
-      },
-    });
+    // Only create Stream resources if API keys are configured
+    if (process.env.STREAM_API_KEY && process.env.STREAM_API_KEY !== 'your_stream_api_key') {
+      try {
+        // create stream video call
+        await streamClient.video.call("default", callId).getOrCreate({
+          data: {
+            created_by_id: clerkId,
+            custom: { problem, difficulty, sessionId: session._id.toString() },
+          },
+        });
 
-    // chat messaging
-    const channel = chatClient.channel("messaging", callId, {
-      name: `${problem} Session`,
-      created_by_id: clerkId,
-      members: [clerkId],
-    });
+        // chat messaging
+        const channel = chatClient.channel("messaging", callId, {
+          name: `${problem} Session`,
+          created_by_id: clerkId,
+          members: [clerkId],
+        });
 
-    await channel.create();
+        await channel.create();
+        console.log("✅ Stream resources created");
+      } catch (streamError) {
+        console.warn("⚠️  Stream API error:", streamError.message);
+      }
+    } else {
+      console.warn("⚠️  Stream API keys not configured - session created without video/chat features");
+    }
 
     res.status(201).json({ session });
   } catch (error) {
-    console.log("Error in createSession controller:", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error("❌ Error in createSession controller:", error);
+    console.error("Error stack:", error.stack);
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 }
 
@@ -116,8 +132,15 @@ export async function joinSession(req, res) {
     session.participant = userId;
     await session.save();
 
-    const channel = chatClient.channel("messaging", session.callId);
-    await channel.addMembers([clerkId]);
+    // Only add to Stream channel if API keys are configured
+    if (process.env.STREAM_API_KEY && process.env.STREAM_API_KEY !== 'your_stream_api_key') {
+      try {
+        const channel = chatClient.channel("messaging", session.callId);
+        await channel.addMembers([clerkId]);
+      } catch (streamError) {
+        console.warn("⚠️  Stream API not configured, user joined without chat access:", streamError.message);
+      }
+    }
 
     res.status(200).json({ session });
   } catch (error) {
@@ -145,13 +168,20 @@ export async function endSession(req, res) {
       return res.status(400).json({ message: "Session is already completed" });
     }
 
-    // delete stream video call
-    const call = streamClient.video.call("default", session.callId);
-    await call.delete({ hard: true });
+    // Only delete Stream resources if API keys are configured
+    if (process.env.STREAM_API_KEY && process.env.STREAM_API_KEY !== 'your_stream_api_key') {
+      try {
+        // delete stream video call
+        const call = streamClient.video.call("default", session.callId);
+        await call.delete({ hard: true });
 
-    // delete stream chat channel
-    const channel = chatClient.channel("messaging", session.callId);
-    await channel.delete();
+        // delete stream chat channel
+        const channel = chatClient.channel("messaging", session.callId);
+        await channel.delete();
+      } catch (streamError) {
+        console.warn("⚠️  Stream API not configured, session ended without cleaning up video/chat:", streamError.message);
+      }
+    }
 
     session.status = "completed";
     await session.save();
