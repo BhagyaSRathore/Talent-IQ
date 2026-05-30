@@ -1,68 +1,77 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@layer base {
+  * {
+    @apply border-border;
   }
-  a:hover {
-    color: #747bff;
+  body {
+    @apply bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-slate-900 antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200;
   }
+  
+  .btn-secondary {
+    @apply bg-white text-slate-700 px-6 py-3 rounded-lg font-semibold border-2 border-slate-200 hover:border-blue-500 hover:text-blue-600 transition-all duration-200;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-slate-100;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200;
+  }
+  
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+  }
+  
+  .badge-easy {
+    @apply bg-green-100 text-green-700;
+  }
+  
+  .badge-medium {
+    @apply bg-yellow-100 text-yellow-700;
+  }
+  
+  .badge-hard {
+    @apply bg-red-100 text-red-700;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400;
+}
+
+/* Animations */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-size: 1000px 100%;
 }
