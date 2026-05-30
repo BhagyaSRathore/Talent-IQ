@@ -2,14 +2,16 @@
 
 > A modern, full-stack collaborative coding interview platform built with React, Node.js, and MongoDB.
 
-[![Live Demo](https://img.shields.io/badge/demo-live-success)](YOUR_LIVE_DEMO_URL_HERE)
-[![License](https://img.shields.io/badge/license-ISC-blue.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/demo-live-success.svg?style=for-the-badge)](https://talentiq-frontend.onrender.com)
+[![GitHub](https://img.shields.io/badge/github-repository-blue.svg?style=for-the-badge&logo=github)](https://github.com/BhagyaSRathore/Talent-IQ)
 
 ## 🌐 Live Demo
 
-**[View Live Demo →](YOUR_LIVE_DEMO_URL_HERE)**
+### **[🚀 View Live Application](https://talentiq-frontend.onrender.com)**
 
-Test the application with full functionality including user authentication, session management, and real-time collaboration features.
+> Click the link above to access the live application. Test all features including user authentication, session creation, and collaboration tools.
+
+**Note:** First load may take 30-60 seconds as the free tier server wakes up.
 
 ---
 
@@ -116,72 +118,6 @@ TALENT-IQ/
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js (v18 or higher)
-- MongoDB Atlas account (free tier)
-- Clerk account (free tier)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/BhagyaSRathore/Talent-IQ.git
-   cd TALENT-IQ
-   ```
-
-2. **Install dependencies**
-   ```bash
-   # Backend
-   cd backend
-   npm install
-
-   # Frontend
-   cd ../frontend
-   npm install --legacy-peer-deps
-   ```
-
-3. **Configure environment variables**
-
-   Create `backend/.env`:
-   ```env
-   PORT=5000
-   NODE_ENV=development
-   DB_URL=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-   CLERK_SECRET_KEY=your_clerk_secret_key
-   CLIENT_URL=http://localhost:5173
-   ```
-
-   Create `frontend/.env`:
-   ```env
-   VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-   VITE_API_URL=http://localhost:5000/api
-   ```
-
-4. **Run the application**
-
-   Terminal 1 (Backend):
-   ```bash
-   cd backend
-   npm run dev
-   ```
-
-   Terminal 2 (Frontend):
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-
-5. **Open your browser**
-   ```
-   http://localhost:5173
-   ```
-
----
-
 ## 📸 Screenshots
 
 ### Landing Page
@@ -275,7 +211,7 @@ This project is licensed under the ISC License.
 **Bhagya S Rathore**
 
 - GitHub: [@BhagyaSRathore](https://github.com/BhagyaSRathore)
-- LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/your-profile)
+- LinkedIn: [Connect with me](https://linkedin.com/in/bhagya-rathore)
 
 ---
 
@@ -291,7 +227,7 @@ This project is licensed under the ISC License.
 
 ## 📞 Support
 
-For support, email bhagyasrathore@example.com or open an issue on GitHub.
+For support, open an issue on GitHub or contact via LinkedIn.
 
 ---
 
