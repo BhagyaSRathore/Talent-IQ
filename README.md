@@ -2,58 +2,60 @@
 
 > A modern, full-stack collaborative coding interview platform built with React, Node.js, and MongoDB.
 
-[![Live Demo](https://img.shields.io/badge/demo-live-success.svg?style=for-the-badge)](https://talentiq-frontend.onrender.com)
+[![Live Demo](https://img.shields.io/badge/demo-live-success.svg?style=for-the-badge)](https://talentiq-frontend-jjsx.onrender.com)
 [![GitHub](https://img.shields.io/badge/github-repository-blue.svg?style=for-the-badge&logo=github)](https://github.com/BhagyaSRathore/Talent-IQ)
 
 ## 🌐 Live Demo
 
-### **[🚀 View Live Application](https://talentiq-frontend.onrender.com)**
+### **[🚀 View Live Application](https://talentiq-frontend-jjsx.onrender.com)**
 
-> Click the link above to access the live application. Test all features including user authentication, session creation, and collaboration tools.
+> Experience the full-featured platform with user authentication, session management, and real-time collaboration tools.
 
-**Note:** First load may take 30-60 seconds as the free tier server wakes up.
+**Note:** Initial load may take 30-60 seconds as the server initializes on the free tier.
 
 ---
 
 ## 📖 Overview
 
-TALENT-IQ is a collaborative platform designed to help developers practice technical interviews with peers. The application provides a seamless experience for creating coding sessions, joining practice rooms, and tracking interview preparation progress.
+TALENT-IQ is a full-stack collaborative coding interview platform that enables developers to practice technical interviews with peers in real-time. Built with modern web technologies, it provides an intuitive interface for creating practice sessions, managing collaborative coding rooms, and tracking interview preparation progress.
 
 ### Key Features
 
-- 🔐 **Secure Authentication** - User authentication powered by Clerk
-- 💼 **Session Management** - Create, join, and manage coding practice sessions
-- 🎯 **Difficulty Levels** - Categorize problems by Easy, Medium, and Hard
-- 📊 **Progress Tracking** - View session history and statistics
-- 🎨 **Modern UI/UX** - Beautiful, responsive design with TailwindCSS
-- 🔍 **Search & Filter** - Find sessions by problem name and difficulty
-- 📱 **Responsive Design** - Works seamlessly on desktop, tablet, and mobile
+- 🔐 **Secure Authentication** - Enterprise-grade user authentication powered by Clerk
+- 💼 **Session Management** - Create, join, and manage coding practice sessions with real-time updates
+- 🎯 **Difficulty Levels** - Organize problems by Easy, Medium, and Hard difficulty ratings
+- 📊 **Progress Tracking** - Comprehensive session history and performance statistics dashboard
+- 🎨 **Modern UI/UX** - Responsive design with smooth animations and gradient aesthetics using TailwindCSS
+- 🔍 **Advanced Search & Filter** - Quickly find sessions by problem name and difficulty level
+- 📱 **Cross-Platform Responsive** - Optimized experience across desktop, tablet, and mobile devices
+- ⚡ **Real-time Updates** - Live session status and availability tracking
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 18** - Modern UI library with hooks
-- **React Router** - Client-side routing
-- **TailwindCSS** - Utility-first CSS framework
-- **Axios** - HTTP client for API requests
-- **Clerk** - Authentication and user management
-- **Vite** - Fast build tool and dev server
+- **React 18** - Modern component-based UI library with hooks and concurrent features
+- **React Router v6** - Declarative client-side routing with protected routes
+- **TailwindCSS** - Utility-first CSS framework for rapid UI development
+- **Axios** - Promise-based HTTP client for API communication
+- **Clerk React** - Complete authentication solution with social login support
+- **Vite** - Next-generation frontend build tool with lightning-fast HMR
 
 ### Backend
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web application framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB object modeling
-- **JWT** - Secure token-based authentication
-- **Clerk Express** - Server-side authentication middleware
+- **Node.js** - JavaScript runtime built on Chrome's V8 engine
+- **Express.js** - Minimal and flexible web application framework
+- **MongoDB Atlas** - Cloud-hosted NoSQL database with high availability
+- **Mongoose** - Elegant MongoDB object modeling with schema validation
+- **Clerk Express SDK** - Server-side authentication middleware and user management
+- **CORS** - Cross-origin resource sharing configuration
 
-### DevOps & Tools
-- **Git** - Version control
-- **npm** - Package management
-- **ESLint** - Code linting
-- **Nodemon** - Development auto-reload
+### DevOps & Deployment
+- **Render** - Cloud platform for hosting frontend and backend services
+- **Git & GitHub** - Version control and collaborative development
+- **npm** - Package management and dependency resolution
+- **ESLint** - Static code analysis for identifying problematic patterns
+- **Nodemon** - Development utility for auto-restarting server
 
 ---
 
@@ -84,37 +86,42 @@ TALENT-IQ/
 
 ## ✨ Features in Detail
 
-### User Authentication
-- Email/password authentication
-- Social login support (Google, GitHub)
-- Secure session management
-- Protected routes and API endpoints
+### User Authentication & Authorization
+- Secure email/password authentication with encrypted credentials
+- Social login integration (Google, GitHub, and more)
+- Persistent session management with automatic token refresh
+- Protected routes and API endpoints with middleware validation
+- User profile management and customization
 
-### Session Management
-- Create coding practice sessions with problem descriptions
-- Set difficulty levels (Easy, Medium, Hard)
-- Join available sessions (max 2 participants per session)
-- End sessions and mark as completed
-- Real-time session status updates
+### Session Management System
+- Create coding practice sessions with detailed problem descriptions
+- Categorize sessions by difficulty level (Easy, Medium, Hard)
+- Join available sessions with automatic capacity management (max 2 participants)
+- End sessions and mark as completed with timestamp tracking
+- Real-time session status updates and availability indicators
+- Session ownership and participant tracking
 
-### Dashboard
-- Welcome screen with user statistics
-- Active sessions overview
-- Recent sessions history
-- Quick access to create new sessions
+### Interactive Dashboard
+- Personalized welcome screen with user-specific statistics
+- Overview of active sessions with quick access
+- Recent sessions history with filtering capabilities
+- Performance metrics and progress visualization
+- Quick action buttons for creating and joining sessions
 
-### Session Browser
-- View all active sessions
-- Search sessions by problem name
-- Filter by difficulty level
-- Real-time availability status
-- One-click join functionality
+### Session Browser & Discovery
+- Browse all active sessions with pagination support
+- Real-time search functionality by problem name
+- Multi-level filtering by difficulty (Easy, Medium, Hard, All)
+- Live availability status indicators
+- One-click join functionality with validation
+- Responsive card-based layout for optimal viewing
 
 ### History & Analytics
-- View completed sessions
-- Statistics breakdown by difficulty
-- Session details and timestamps
-- Progress tracking over time
+- Comprehensive view of completed sessions
+- Statistics breakdown by difficulty level
+- Detailed session information including timestamps and participants
+- Progress tracking over time with visual indicators
+- Export capabilities for personal records
 
 ---
 
@@ -134,14 +141,17 @@ Collaborative space for practicing coding interviews (video/chat features ready 
 
 ---
 
-## 🔒 Security Features
+## 🔒 Security & Best Practices
 
-- JWT-based authentication
-- Secure password hashing
-- Protected API routes
-- CORS configuration
-- Environment variable protection
-- Input validation and sanitization
+- **Authentication**: Enterprise-grade authentication with Clerk SDK
+- **Authorization**: Role-based access control for API endpoints
+- **Data Protection**: Secure password hashing and encryption
+- **API Security**: Protected routes with JWT validation middleware
+- **CORS Configuration**: Controlled cross-origin resource sharing
+- **Environment Variables**: Sensitive data protection with .env files
+- **Input Validation**: Server-side validation and sanitization
+- **Error Handling**: Comprehensive error handling without exposing sensitive information
+- **Database Security**: MongoDB connection with authentication and encryption
 
 ---
 
@@ -163,28 +173,40 @@ Collaborative space for practicing coding interviews (video/chat features ready 
 
 ---
 
-## 🌟 Future Enhancements
+## 🌟 Roadmap & Future Enhancements
 
-- [ ] Live code editor integration (Monaco/CodeMirror)
-- [ ] Real-time video calling (Stream SDK)
-- [ ] Real-time chat messaging
-- [ ] Screen sharing capability
-- [ ] Code execution environment
-- [ ] Whiteboard for diagrams
-- [ ] Session recording and playback
-- [ ] Feedback and rating system
-- [ ] Email notifications
-- [ ] Mobile application
+### Phase 1 (Planned)
+- [ ] Live code editor integration with syntax highlighting (Monaco Editor)
+- [ ] Real-time collaborative editing with operational transformation
+- [ ] Code execution environment with multiple language support
+
+### Phase 2 (Planned)
+- [ ] Video calling integration using WebRTC or Stream SDK
+- [ ] Real-time chat messaging with typing indicators
+- [ ] Screen sharing capability for better collaboration
+
+### Phase 3 (Planned)
+- [ ] Interactive whiteboard for system design discussions
+- [ ] Session recording and playback functionality
+- [ ] AI-powered code review and feedback system
+
+### Phase 4 (Planned)
+- [ ] Peer rating and feedback system
+- [ ] Email notifications for session invites and updates
+- [ ] Mobile application (React Native)
+- [ ] Advanced analytics and insights dashboard
 
 ---
 
-## 📊 Performance
+## 📊 Performance & Optimization
 
-- Fast page loads with Vite
-- Optimized bundle size
-- Efficient database queries with indexing
-- Responsive design for all devices
-- Smooth animations and transitions
+- **Fast Build Times**: Vite's lightning-fast HMR for instant feedback during development
+- **Optimized Bundles**: Code splitting and tree shaking for minimal bundle sizes
+- **Database Optimization**: Indexed queries and efficient data modeling with Mongoose
+- **Responsive Design**: Mobile-first approach with TailwindCSS utilities
+- **Smooth Animations**: Hardware-accelerated CSS transitions and transforms
+- **Lazy Loading**: Component-level code splitting for faster initial loads
+- **Caching Strategy**: Efficient API response caching for improved performance
 
 ---
 
