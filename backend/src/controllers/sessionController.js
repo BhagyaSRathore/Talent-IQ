@@ -114,23 +114,47 @@ export async function joinSession(req, res) {
     const userId = req.user._id;
     const clerkId = req.user.clerkId;
 
-    const session = await Session.findById(id);
+    // Use findOneAndUpdate with atomic operation to prevent race condition
+    const session = await Session.findOneAndUpdate(
+      {
+        _id: id,
+        status: "active",
+        participant: null, // Only join if no participant yet
+        host: { $ne: userId }, // Ensure user is not the host
+      },
+      { 
+        $set: { participant: userId }
+      },
+      { 
+        new: true, // Return updated document
+        runValidators: true 
+      }
+    ).populate("host", "name email profileImage clerkId")
+     .populate("participant", "name email profileImage clerkId");
 
-    if (!session) return res.status(404).json({ message: "Session not found" });
+    if (!session) {
+      // Check why the update failed
+      const existingSession = await Session.findById(id);
+      
+      if (!existingSession) {
+        return res.status(404).json({ message: "Session not found" });
+      }
+      
+      if (existingSession.status !== "active") {
+        return res.status(400).json({ message: "Cannot join a completed session" });
+      }
+      
+      if (existingSession.host.toString() === userId.toString()) {
+        return res.status(400).json({ message: "Host cannot join their own session as participant" });
+      }
+      
+      if (existingSession.participant) {
+        return res.status(409).json({ message: "Session is full" });
+      }
 
-    if (session.status !== "active") {
-      return res.status(400).json({ message: "Cannot join a completed session" });
+      // Generic error if none of the above
+      return res.status(400).json({ message: "Unable to join session" });
     }
-
-    if (session.host.toString() === userId.toString()) {
-      return res.status(400).json({ message: "Host cannot join their own session as participant" });
-    }
-
-    // check if session is already full - has a participant
-    if (session.participant) return res.status(409).json({ message: "Session is full" });
-
-    session.participant = userId;
-    await session.save();
 
     // Only add to Stream channel if API keys are configured
     if (process.env.STREAM_API_KEY && process.env.STREAM_API_KEY !== 'your_stream_api_key') {
@@ -144,7 +168,7 @@ export async function joinSession(req, res) {
 
     res.status(200).json({ session });
   } catch (error) {
-    console.log("Error in joinSession controller:", error.message);
+    console.error("Error in joinSession controller:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 }

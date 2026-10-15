@@ -26,6 +26,9 @@ const Navbar = () => {
               <NavLink to="/dashboard" icon={<Home className="h-4 w-4" />}>
                 Dashboard
               </NavLink>
+              <NavLink to="/problems" icon={<Code2 className="h-4 w-4" />}>
+                Problems
+              </NavLink>
               <NavLink to="/sessions" icon={<Video className="h-4 w-4" />}>
                 Sessions
               </NavLink>

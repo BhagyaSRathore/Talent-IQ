@@ -75,3 +75,86 @@
   background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
   background-size: 1000px 100%;
 }
+
+/* Stream Video SDK Custom Styles */
+.str-video__call-stats {
+  background: rgba(15, 23, 42, 0.9) !important;
+  backdrop-filter: blur(8px);
+}
+
+.str-video__participant-view {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.str-video__call-controls {
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/* Stream Chat Custom Styles */
+.stream-chat-custom .str-chat {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  height: 100%;
+}
+
+.stream-chat-custom .str-chat__container {
+  background: #0f172a;
+  height: 100%;
+}
+
+.stream-chat-custom .str-chat__main-panel {
+  background: #0f172a;
+}
+
+.stream-chat-custom .str-chat__list {
+  background: #0f172a;
+  padding: 16px;
+}
+
+.stream-chat-custom .str-chat__message-simple {
+  background: #1e293b;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+}
+
+.stream-chat-custom .str-chat__message-simple--me {
+  background: #3b82f6;
+}
+
+.stream-chat-custom .str-chat__input {
+  background: #1e293b;
+  border-top: 1px solid #334155;
+  padding: 12px;
+}
+
+.stream-chat-custom .str-chat__input-flat {
+  background: #334155;
+  border-radius: 8px;
+  border: none;
+}
+
+.stream-chat-custom .str-chat__textarea textarea {
+  background: transparent;
+  color: #f1f5f9;
+}
+
+.stream-chat-custom .str-chat__message-text-inner {
+  color: #f1f5f9;
+}
+
+.stream-chat-custom .str-chat__message-simple--me .str-chat__message-text-inner {
+  color: #ffffff;
+}
+
+.stream-chat-custom .str-chat__avatar {
+  border-radius: 50%;
+}
+
+.stream-chat-custom .str-chat__date-separator {
+  color: #94a3b8;
+  font-size: 12px;
+}
+

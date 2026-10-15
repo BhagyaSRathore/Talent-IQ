@@ -39,4 +39,21 @@ export const chatAPI = {
   getStreamToken: () => api.get('/chat/token'),
 };
 
+// Execution endpoints
+export const executionAPI = {
+  runCode: (data) => api.post('/execute/run', data),
+  submitCode: (data) => api.post('/execute/submit', data),
+  getSessionSubmissions: (sessionId) => api.get(`/execute/submissions/${sessionId}`),
+  getMySubmissions: () => api.get('/execute/my-submissions'),
+};
+
+// Problem endpoints
+export const problemAPI = {
+  getProblems: (params) => api.get('/problems', { params }),
+  getProblemBySlug: (slug) => api.get(`/problems/slug/${slug}`),
+  getProblemById: (id) => api.get(`/problems/${id}`),
+  getCategories: () => api.get('/problems/categories'),
+  getRandomProblem: (params) => api.get('/problems/random', { params }),
+};
+
 export default api;

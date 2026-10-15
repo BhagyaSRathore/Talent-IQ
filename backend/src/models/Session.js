@@ -35,6 +35,12 @@ const sessionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Indexes for better query performance
+sessionSchema.index({ status: 1, createdAt: -1 }); // For active sessions query
+sessionSchema.index({ host: 1, createdAt: -1 }); // For user's sessions
+sessionSchema.index({ participant: 1, createdAt: -1 }); // For user's sessions
+sessionSchema.index({ difficulty: 1, status: 1 }); // For filtering by difficulty
+
 const Session = mongoose.model("Session", sessionSchema);
 
 export default Session;

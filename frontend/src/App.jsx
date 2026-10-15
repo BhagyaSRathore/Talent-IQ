@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn, SignIn, SignUp } from '@clerk/clerk-react';
 import { SessionProvider } from './context/SessionContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
@@ -8,6 +9,7 @@ import Sessions from './pages/Sessions';
 import CreateSession from './pages/CreateSession';
 import SessionRoom from './pages/SessionRoom';
 import History from './pages/History';
+import Problems from './pages/Problems';
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -44,80 +46,90 @@ function App() {
   }
 
   return (
-    <ClerkProvider publishableKey={clerkPubKey}>
-      <SessionProvider>
-        <Router>
-          <div className="min-h-screen">
-            <Navbar />
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<LandingPage />} />
-              <Route
-                path="/sign-in/*"
-                element={
-                  <div className="min-h-screen flex items-center justify-center py-12 px-4">
-                    <SignIn routing="path" path="/sign-in" />
-                  </div>
-                }
-              />
-              <Route
-                path="/sign-up/*"
-                element={
-                  <div className="min-h-screen flex items-center justify-center py-12 px-4">
-                    <SignUp routing="path" path="/sign-up" />
-                  </div>
-                }
-              />
+    <ErrorBoundary>
+      <ClerkProvider publishableKey={clerkPubKey}>
+        <SessionProvider>
+          <Router>
+            <div className="min-h-screen">
+              <Navbar />
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<LandingPage />} />
+                <Route
+                  path="/sign-in/*"
+                  element={
+                    <div className="min-h-screen flex items-center justify-center py-12 px-4">
+                      <SignIn routing="path" path="/sign-in" />
+                    </div>
+                  }
+                />
+                <Route
+                  path="/sign-up/*"
+                  element={
+                    <div className="min-h-screen flex items-center justify-center py-12 px-4">
+                      <SignUp routing="path" path="/sign-up" />
+                    </div>
+                  }
+                />
 
-              {/* Protected Routes */}
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/sessions"
-                element={
-                  <ProtectedRoute>
-                    <Sessions />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/create-session"
-                element={
-                  <ProtectedRoute>
-                    <CreateSession />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/session/:id"
-                element={
-                  <ProtectedRoute>
-                    <SessionRoom />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/history"
-                element={
-                  <ProtectedRoute>
-                    <History />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Protected Routes */}
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/sessions"
+                  element={
+                    <ProtectedRoute>
+                      <Sessions />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/create-session"
+                  element={
+                    <ProtectedRoute>
+                      <CreateSession />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/session/:id"
+                  element={
+                    <ProtectedRoute>
+                      <SessionRoom />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/history"
+                  element={
+                    <ProtectedRoute>
+                      <History />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/problems"
+                  element={
+                    <ProtectedRoute>
+                      <Problems />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Catch all */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </div>
-        </Router>
-      </SessionProvider>
-    </ClerkProvider>
+                {/* Catch all */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </div>
+          </Router>
+        </SessionProvider>
+      </ClerkProvider>
+    </ErrorBoundary>
   );
 }
 
