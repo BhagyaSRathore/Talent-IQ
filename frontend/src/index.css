@@ -461,27 +461,121 @@
 }
 
 /* ============================================
-   LOADING STATES
+   RESPONSIVE DESIGN
    ============================================ */
-.skeleton {
-  @apply animate-shimmer rounded;
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 768px) {
+  .panel-header {
+    @apply px-3 py-2;
+  }
+
+  .heading-1 {
+    @apply text-3xl;
+  }
+
+  .heading-2 {
+    @apply text-2xl;
+  }
+
+  .heading-3 {
+    @apply text-xl;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .heading-1 {
+    @apply text-3xl;
+  }
 }
 
 /* ============================================
-   EMPTY STATES
+   ACCESSIBILITY IMPROVEMENTS
    ============================================ */
-.empty-state {
-  @apply flex flex-col items-center justify-center p-12 text-center;
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
 }
 
-.empty-state-icon {
-  @apply w-16 h-16 text-text-tertiary mb-4;
+/* Skip to main content link */
+.skip-link {
+  @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 
+         focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white 
+         focus:rounded-lg focus:shadow-lg;
 }
 
-.empty-state-title {
-  @apply text-lg font-semibold text-text-primary mb-2;
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
-.empty-state-description {
-  @apply text-text-secondary mb-6 max-w-md;
+.sr-only.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-spin,
+  .animate-fade-in,
+  .animate-slide-in,
+  .animate-shimmer {
+    animation: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn,
+  .card,
+  .input {
+    @apply border-2;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .no-print,
+  nav,
+  .panel-header button,
+  .icon-btn,
+  .btn-primary,
+  .btn-secondary {
+    display: none !important;
+  }
+
+  body {
+    @apply bg-white text-black;
+  }
+
+  .card {
+    @apply border border-gray-300;
+    break-inside: avoid;
+  }
 }

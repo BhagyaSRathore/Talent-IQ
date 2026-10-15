@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import {
   StreamVideo,
   StreamVideoClient,
-  Call,
 } from '@stream-io/video-react-sdk';
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import { 
-  CallControls,
-  CallParticipantsList,
+  StreamCall,
   SpeakerLayout,
+  CallControls,
   useCall,
   useCallStateHooks,
 } from '@stream-io/video-react-sdk';
@@ -25,7 +24,6 @@ const VideoCallUI = ({ onLeave }) => {
   
   const [isMicOn, setIsMicOn] = useState(true);
   const [isCameraOn, setIsCameraOn] = useState(true);
-  const [showParticipants, setShowParticipants] = useState(false);
 
   const toggleMic = async () => {
     if (call) {
@@ -51,27 +49,27 @@ const VideoCallUI = ({ onLeave }) => {
   };
 
   return (
-    <div className="h-full flex flex-col bg-slate-900">
+    <div className="h-full flex flex-col bg-background">
       {/* Video Layout */}
       <div className="flex-1 relative">
         <SpeakerLayout />
       </div>
 
       {/* Custom Controls */}
-      <div className="bg-slate-800 border-t border-slate-700 px-4 py-3">
+      <div className="bg-surface-elevated border-t border-border px-4 py-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2 text-slate-300 text-sm">
+          <div className="flex items-center gap-2 text-text-secondary text-sm">
             <Users className="h-4 w-4" />
             <span>{participants.length} participant{participants.length !== 1 ? 's' : ''}</span>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
             <button
               onClick={toggleMic}
               className={`p-3 rounded-full transition-colors ${
                 isMicOn
-                  ? 'bg-slate-700 hover:bg-slate-600 text-white'
-                  : 'bg-red-600 hover:bg-red-700 text-white'
+                  ? 'bg-surface hover:bg-border text-text-primary'
+                  : 'bg-error hover:bg-error/90 text-white'
               }`}
               title={isMicOn ? 'Mute' : 'Unmute'}
             >
@@ -82,8 +80,8 @@ const VideoCallUI = ({ onLeave }) => {
               onClick={toggleCamera}
               className={`p-3 rounded-full transition-colors ${
                 isCameraOn
-                  ? 'bg-slate-700 hover:bg-slate-600 text-white'
-                  : 'bg-red-600 hover:bg-red-700 text-white'
+                  ? 'bg-surface hover:bg-border text-text-primary'
+                  : 'bg-error hover:bg-error/90 text-white'
               }`}
               title={isCameraOn ? 'Turn off camera' : 'Turn on camera'}
             >
@@ -92,29 +90,14 @@ const VideoCallUI = ({ onLeave }) => {
 
             <button
               onClick={leaveCall}
-              className="p-3 rounded-full bg-red-600 hover:bg-red-700 text-white transition-colors"
+              className="p-3 rounded-full bg-error hover:bg-error/90 text-white transition-colors"
               title="Leave call"
             >
               <PhoneOff className="h-5 w-5" />
             </button>
           </div>
-
-          <button
-            onClick={() => setShowParticipants(!showParticipants)}
-            className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded text-sm transition-colors"
-          >
-            <Users className="h-4 w-4 inline mr-1" />
-            Participants
-          </button>
         </div>
       </div>
-
-      {/* Participants Panel */}
-      {showParticipants && (
-        <div className="absolute right-4 bottom-20 bg-slate-800 rounded-lg shadow-xl p-4 w-64 max-h-80 overflow-y-auto">
-          <CallParticipantsList onClose={() => setShowParticipants(false)} />
-        </div>
-      )}
     </div>
   );
 };
@@ -146,7 +129,7 @@ const VideoCall = ({ sessionId, callId, user, onLeave }) => {
           user: {
             id: userId,
             name: user?.name || 'User',
-            image: user?.profileImage || `https://ui-avatars.com/api/?name=${user?.name || 'User'}`,
+            image: user?.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}`,
           },
           token,
         });
@@ -183,10 +166,10 @@ const VideoCall = ({ sessionId, callId, user, onLeave }) => {
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center bg-slate-900">
+      <div className="h-full flex items-center justify-center bg-background">
         <div className="text-center">
-          <Loader2 className="h-12 w-12 text-blue-400 animate-spin mx-auto mb-4" />
-          <p className="text-slate-300">Connecting to video call...</p>
+          <Loader2 className="h-12 w-12 text-primary animate-spin mx-auto mb-4" />
+          <p className="text-text-secondary">Connecting to video call...</p>
         </div>
       </div>
     );
@@ -194,16 +177,26 @@ const VideoCall = ({ sessionId, callId, user, onLeave }) => {
 
   if (error) {
     return (
-      <div className="h-full flex items-center justify-center bg-slate-900 p-6">
-        <div className="text-center max-w-md">
-          <VideoOff className="h-16 w-16 text-red-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">Video Call Unavailable</h3>
-          <p className="text-slate-400 mb-4">{error}</p>
-          <div className="text-xs text-slate-500 bg-slate-800 p-3 rounded">
-            <p className="font-semibold mb-1">Configuration needed:</p>
-            <p>1. Get API key from getstream.io</p>
-            <p>2. Add VITE_STREAM_API_KEY to frontend/.env</p>
-            <p>3. Add STREAM_API_KEY and STREAM_API_SECRET to backend/.env</p>
+      <div className="h-full flex items-center justify-center bg-background p-6">
+        <div className="text-center max-w-sm">
+          <div className="w-16 h-16 bg-warning/10 rounded-full flex items-center justify-center mb-4 mx-auto">
+            <VideoOff className="h-8 w-8 text-warning" />
+          </div>
+          <h3 className="heading-4 mb-2">Video Setup Required</h3>
+          <p className="text-small mb-4">{error}</p>
+          <div className="text-xs text-text-tertiary bg-surface-elevated p-3 rounded-lg border border-border text-left">
+            <p className="font-semibold mb-2">Quick Setup:</p>
+            <ol className="space-y-1 list-decimal list-inside">
+              <li>Get free API key from <a href="https://getstream.io" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">getstream.io</a></li>
+              <li>Add to <code className="code-inline">frontend/.env</code>:<br/>
+                <code className="text-xs">VITE_STREAM_API_KEY=your_key</code>
+              </li>
+              <li>Add to <code className="code-inline">backend/.env</code>:<br/>
+                <code className="text-xs">STREAM_API_KEY=your_key</code><br/>
+                <code className="text-xs">STREAM_API_SECRET=your_secret</code>
+              </li>
+              <li>Restart both servers</li>
+            </ol>
           </div>
         </div>
       </div>
@@ -212,19 +205,20 @@ const VideoCall = ({ sessionId, callId, user, onLeave }) => {
 
   if (!client || !call) {
     return (
-      <div className="h-full flex items-center justify-center bg-slate-900">
-        <p className="text-slate-400">Initializing...</p>
+      <div className="h-full flex items-center justify-center bg-background">
+        <p className="text-text-tertiary">Initializing...</p>
       </div>
     );
   }
 
   return (
     <StreamVideo client={client}>
-      <Call call={call}>
+      <StreamCall call={call}>
         <VideoCallUI onLeave={onLeave} />
-      </Call>
+      </StreamCall>
     </StreamVideo>
   );
 };
 
 export default VideoCall;
+

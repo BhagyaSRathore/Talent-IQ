@@ -5,7 +5,7 @@ import { useSession } from '../context/SessionContext';
 import SessionCard from '../components/SessionCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
-import { Plus, TrendingUp, Clock, Users } from 'lucide-react';
+import { Plus, TrendingUp, Clock, Users, ArrowRight, Sparkles } from 'lucide-react';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -32,23 +32,35 @@ const Dashboard = () => {
     <div className="min-h-screen py-8 px-4">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Welcome Section */}
-        <div className="card p-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">
-                Welcome back, {user?.firstName || 'Developer'}! 👋
-              </h1>
-              <p className="text-blue-100 text-lg">
-                Ready to practice and improve your coding skills?
-              </p>
+        <div className="relative overflow-hidden">
+          <div className="card-elevated p-8 bg-gradient-to-br from-primary/10 via-accent/5 to-transparent border-primary/20">
+            <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles className="h-5 w-5 text-primary" />
+                  <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+                    Welcome Back
+                  </span>
+                </div>
+                <h1 className="heading-2 mb-2">
+                  Hello, {user?.firstName || 'Developer'}! 👋
+                </h1>
+                <p className="text-body max-w-2xl">
+                  Ready to sharpen your coding skills? Start a new interview session or join an existing one.
+                </p>
+              </div>
+              <button
+                onClick={() => navigate('/create-session')}
+                className="btn btn-primary btn-lg shadow-lg hover:shadow-xl"
+              >
+                <Plus className="h-5 w-5" />
+                <span>Create New Session</span>
+              </button>
             </div>
-            <button
-              onClick={() => navigate('/create-session')}
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center space-x-2"
-            >
-              <Plus className="h-5 w-5" />
-              <span>Create New Session</span>
-            </button>
+            
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-0"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-accent/5 rounded-full blur-3xl -z-0"></div>
           </div>
         </div>
 
@@ -58,19 +70,22 @@ const Dashboard = () => {
             icon={<Users className="h-6 w-6" />}
             title="Active Sessions"
             value={activeSessions.length}
-            color="blue"
+            description="Available to join"
+            color="primary"
           />
           <StatCard
             icon={<Clock className="h-6 w-6" />}
             title="Recent Sessions"
             value={myRecentSessions.length}
-            color="indigo"
+            description="Your past interviews"
+            color="accent"
           />
           <StatCard
             icon={<TrendingUp className="h-6 w-6" />}
             title="Total Practice"
             value={myRecentSessions.length}
-            color="purple"
+            description="Completed sessions"
+            color="success"
           />
         </div>
 
@@ -85,12 +100,16 @@ const Dashboard = () => {
         {/* Active Sessions */}
         <section>
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-slate-800">Active Sessions</h2>
+            <div>
+              <h2 className="heading-3">Active Sessions</h2>
+              <p className="text-small mt-1">Join an ongoing interview session</p>
+            </div>
             <button
               onClick={() => navigate('/sessions')}
-              className="text-blue-600 hover:text-blue-700 font-semibold"
+              className="btn btn-ghost text-primary hover:text-primary-hover"
             >
-              View All →
+              View All
+              <ArrowRight className="h-4 w-4" />
             </button>
           </div>
 
@@ -98,19 +117,22 @@ const Dashboard = () => {
             <LoadingSpinner text="Loading sessions..." />
           ) : activeSessions.length === 0 ? (
             <div className="card p-12 text-center">
-              <Users className="h-16 w-16 text-slate-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-slate-600 mb-2">
-                No Active Sessions
-              </h3>
-              <p className="text-slate-500 mb-6">
-                Be the first to create a session and start practicing!
-              </p>
-              <button
-                onClick={() => navigate('/create-session')}
-                className="btn-primary"
-              >
-                Create Session
-              </button>
+              <div className="empty-state">
+                <div className="w-16 h-16 bg-surface-elevated rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <Users className="h-8 w-8 text-text-tertiary" />
+                </div>
+                <h3 className="empty-state-title">No Active Sessions</h3>
+                <p className="empty-state-description">
+                  There are no active interview sessions at the moment. Create one to get started!
+                </p>
+                <button
+                  onClick={() => navigate('/create-session')}
+                  className="btn btn-primary"
+                >
+                  <Plus className="h-4 w-4" />
+                  Create Session
+                </button>
+              </div>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -118,61 +140,122 @@ const Dashboard = () => {
                 <SessionCard
                   key={session._id}
                   session={session}
-                  onJoin={handleJoinSession}
+                  onJoin={() => handleJoinSession(session._id)}
                 />
               ))}
             </div>
           )}
         </section>
 
-        {/* Recent Sessions */}
+        {/* Recent Activity */}
         {myRecentSessions.length > 0 && (
           <section>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-slate-800">Your Recent Sessions</h2>
+              <div>
+                <h2 className="heading-3">Recent Activity</h2>
+                <p className="text-small mt-1">Your latest practice sessions</p>
+              </div>
               <button
                 onClick={() => navigate('/history')}
-                className="text-blue-600 hover:text-blue-700 font-semibold"
+                className="btn btn-ghost text-primary hover:text-primary-hover"
               >
-                View All →
+                View History
+                <ArrowRight className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {myRecentSessions.slice(0, 3).map((session) => (
-                <SessionCard
+            <div className="card divide-y divide-border">
+              {myRecentSessions.slice(0, 5).map((session) => (
+                <div
                   key={session._id}
-                  session={session}
-                  showJoinButton={false}
-                />
+                  className="p-4 hover:bg-surface-elevated transition-colors cursor-pointer"
+                  onClick={() => navigate(`/session/${session._id}`)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-text-primary">{session.problem}</h4>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className={`badge badge-${session.difficulty}`}>
+                          {session.difficulty}
+                        </span>
+                        <span className="text-small">
+                          {new Date(session.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    <ArrowRight className="h-5 w-5 text-text-tertiary" />
+                  </div>
+                </div>
               ))}
             </div>
           </section>
         )}
+
+        {/* Quick Actions */}
+        <section>
+          <h2 className="heading-3 mb-6">Quick Actions</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <QuickActionCard
+              title="Browse Problems"
+              description="Explore our collection of coding challenges"
+              icon={<TrendingUp className="h-6 w-6" />}
+              onClick={() => navigate('/problems')}
+            />
+            <QuickActionCard
+              title="View All Sessions"
+              description="See all available interview sessions"
+              icon={<Users className="h-6 w-6" />}
+              onClick={() => navigate('/sessions')}
+            />
+          </div>
+        </section>
       </div>
     </div>
   );
 };
 
-const StatCard = ({ icon, title, value, color }) => {
+const StatCard = ({ icon, title, value, description, color }) => {
   const colorClasses = {
-    blue: 'from-blue-500 to-blue-600',
-    indigo: 'from-indigo-500 to-indigo-600',
-    purple: 'from-purple-500 to-purple-600',
+    primary: 'text-primary bg-primary/10',
+    accent: 'text-accent bg-accent/10',
+    success: 'text-success bg-success/10',
   };
 
   return (
-    <div className="card p-6">
-      <div className="flex items-center space-x-4">
-        <div className={`p-3 rounded-lg bg-gradient-to-br ${colorClasses[color]} text-white`}>
-          {icon}
+    <div className="card-hover p-6">
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <p className="text-small mb-2">{title}</p>
+          <p className="text-4xl font-bold text-text-primary mb-1">{value}</p>
+          <p className="text-small">{description}</p>
         </div>
-        <div>
-          <p className="text-sm text-slate-600 font-medium">{title}</p>
-          <p className="text-3xl font-bold text-slate-800">{value}</p>
+        <div className={`p-3 rounded-lg ${colorClasses[color]}`}>
+          {icon}
         </div>
       </div>
     </div>
+  );
+};
+
+const QuickActionCard = ({ title, description, icon, onClick }) => {
+  return (
+    <button
+      onClick={onClick}
+      className="card-hover p-6 text-left w-full group"
+    >
+      <div className="flex items-start gap-4">
+        <div className="p-3 bg-primary/10 text-primary rounded-lg group-hover:bg-primary group-hover:text-white transition-colors">
+          {icon}
+        </div>
+        <div className="flex-1">
+          <h3 className="font-semibold text-text-primary mb-1 group-hover:text-primary transition-colors">
+            {title}
+          </h3>
+          <p className="text-small">{description}</p>
+        </div>
+        <ArrowRight className="h-5 w-5 text-text-tertiary group-hover:text-primary group-hover:translate-x-1 transition-all" />
+      </div>
+    </button>
   );
 };
 

@@ -1,246 +1,266 @@
-# 🚀 TALENT-IQ
+# TALENT-IQ
 
-> A modern, full-stack collaborative coding interview platform built with React, Node.js, and MongoDB.
+A collaborative coding interview practice platform enabling developers to conduct technical interviews in real-time with live video, chat, and code execution.
 
-[![Live Demo](https://img.shields.io/badge/demo-live-success.svg?style=for-the-badge)](https://talentiq-frontend-jjsx.onrender.com)
-[![GitHub](https://img.shields.io/badge/github-repository-blue.svg?style=for-the-badge&logo=github)](https://github.com/BhagyaSRathore/Talent-IQ)
+## Overview
 
-## 🌐 Live Demo
+TALENT-IQ provides an integrated environment for practicing coding interviews with peers. The platform combines secure authentication, real-time collaboration tools, and a curated problem set across multiple difficulty levels.
 
-### **[🚀 View Live Application](https://talentiq-frontend-jjsx.onrender.com)**
+**Live Demo:** [https://talentiq-frontend-jjsx.onrender.com](https://talentiq-frontend-jjsx.onrender.com)  
+*Note: Initial load may take 30-60 seconds on free hosting tier.*
 
-> Experience the full-featured platform with user authentication, session management, and real-time collaboration tools.
+## Features
 
-**Note:** Initial load may take 30-60 seconds as the server initializes on the free tier.
+**Session Management**
+- Create and join practice sessions with problem descriptions
+- Sessions organized by difficulty (Easy, Medium, Hard)
+- Automatic capacity management (maximum 2 participants)
+- Real-time session status and availability tracking
 
----
+**Real-Time Collaboration**
+- Live code editor with Monaco Editor and syntax highlighting
+- Multi-language support (JavaScript, Python, Java, C++, Go)
+- Real-time collaborative editing with Yjs and WebSocket sync
+- Video calling via Stream Video SDK
+- Integrated chat using Stream Chat SDK
+- Socket.io for presence and cursor tracking
 
-## 📖 Overview
+**Code Execution**
+- Remote code execution through Judge0 API
+- Support for multiple programming languages
+- Real-time output console with error handling
+- Submission history and tracking
 
-TALENT-IQ is a full-stack collaborative coding interview platform that enables developers to practice technical interviews with peers in real-time. Built with modern web technologies, it provides an intuitive interface for creating practice sessions, managing collaborative coding rooms, and tracking interview preparation progress.
+**User Interface**
+- Dashboard with session statistics and quick actions
+- Session browser with search and filtering
+- Comprehensive history view with completion tracking
+- Light and dark theme support with persistent preferences
+- Fully responsive design for mobile and desktop
 
-### Key Features
+## Technology Stack
 
-- 🔐 **Secure Authentication** - Enterprise-grade user authentication powered by Clerk
-- 💼 **Session Management** - Create, join, and manage coding practice sessions with real-time updates
-- 🎯 **Difficulty Levels** - Organize problems by Easy, Medium, and Hard difficulty ratings
-- 📊 **Progress Tracking** - Comprehensive session history and performance statistics dashboard
-- 🎨 **Modern UI/UX** - Responsive design with smooth animations and gradient aesthetics using TailwindCSS
-- 🔍 **Advanced Search & Filter** - Quickly find sessions by problem name and difficulty level
-- 📱 **Cross-Platform Responsive** - Optimized experience across desktop, tablet, and mobile devices
-- ⚡ **Real-time Updates** - Live session status and availability tracking
+**Frontend**
+- React 18 with Vite for fast development and builds
+- React Router v6 for client-side routing
+- TailwindCSS for utility-first styling
+- Monaco Editor for code editing
+- Stream Video and Chat React SDKs
+- Socket.io Client for real-time events
+- Yjs for collaborative editing synchronization
+- Clerk React for authentication
 
----
+**Backend**
+- Node.js with Express 5
+- MongoDB Atlas with Mongoose ODM
+- Socket.io for WebSocket communication
+- Stream Node SDK for video/chat token generation
+- Clerk Express SDK for authentication middleware
+- Judge0 integration for code execution
+- Helmet and express-mongo-sanitize for security
+- Express Rate Limit and Validator for request validation
 
-## 🛠️ Tech Stack
-
-### Frontend
-- **React 18** - Modern component-based UI library with hooks and concurrent features
-- **React Router v6** - Declarative client-side routing with protected routes
-- **TailwindCSS** - Utility-first CSS framework for rapid UI development
-- **Axios** - Promise-based HTTP client for API communication
-- **Clerk React** - Complete authentication solution with social login support
-- **Vite** - Next-generation frontend build tool with lightning-fast HMR
-
-### Backend
-- **Node.js** - JavaScript runtime built on Chrome's V8 engine
-- **Express.js** - Minimal and flexible web application framework
-- **MongoDB Atlas** - Cloud-hosted NoSQL database with high availability
-- **Mongoose** - Elegant MongoDB object modeling with schema validation
-- **Clerk Express SDK** - Server-side authentication middleware and user management
-- **CORS** - Cross-origin resource sharing configuration
-
-### DevOps & Deployment
-- **Render** - Cloud platform for hosting frontend and backend services
-- **Git & GitHub** - Version control and collaborative development
-- **npm** - Package management and dependency resolution
-- **ESLint** - Static code analysis for identifying problematic patterns
-- **Nodemon** - Development utility for auto-restarting server
-
----
-
-## 🏗️ Architecture
+## Project Structure
 
 ```
 TALENT-IQ/
-├── frontend/          # React application
+├── frontend/
 │   ├── src/
-│   │   ├── components/    # Reusable UI components
-│   │   ├── pages/         # Page components
-│   │   ├── context/       # React Context for state management
-│   │   └── config/        # API configuration
-│   └── public/
+│   │   ├── components/        # Reusable UI components
+│   │   │   ├── ChatPanel.jsx       # Stream Chat integration
+│   │   │   ├── CodeEditor.jsx      # Monaco + Yjs collaborative editor
+│   │   │   ├── VideoCall.jsx       # Stream Video integration
+│   │   │   ├── OutputConsole.jsx   # Code execution output
+│   │   │   └── ...
+│   │   ├── pages/             # Route pages
+│   │   │   ├── Dashboard.jsx       # User dashboard
+│   │   │   ├── SessionRoom.jsx     # Collaborative workspace
+│   │   │   ├── Sessions.jsx        # Browse sessions
+│   │   │   └── History.jsx         # Session history
+│   │   ├── context/           # React Context providers
+│   │   │   ├── SessionContext.jsx  # Session state management
+│   │   │   └── ThemeContext.jsx    # Theme state
+│   │   └── config/            # API configuration
+│   └── index.html             # Entry point
 │
-├── backend/           # Node.js API server
+├── backend/
 │   └── src/
-│       ├── controllers/   # Request handlers
-│       ├── models/        # Database models
-│       ├── routes/        # API routes
-│       ├── middleware/    # Custom middleware
-│       └── lib/           # Utility functions
+│       ├── controllers/       # Request handlers
+│       │   ├── sessionController.js
+│       │   ├── problemController.js
+│       │   ├── executionController.js
+│       │   └── chatController.js
+│       ├── models/            # Mongoose schemas
+│       │   ├── Session.js
+│       │   ├── Problem.js
+│       │   ├── Submission.js
+│       │   └── User.js
+│       ├── routes/            # Express routes
+│       ├── middleware/        # Auth and validation
+│       ├── lib/               # Database, Socket.io, Stream
+│       └── server.js          # Application entry point
 │
 └── README.md
 ```
 
----
+## Getting Started
 
-## ✨ Features in Detail
+### Prerequisites
 
-### User Authentication & Authorization
-- Secure email/password authentication with encrypted credentials
-- Social login integration (Google, GitHub, and more)
-- Persistent session management with automatic token refresh
-- Protected routes and API endpoints with middleware validation
-- User profile management and customization
+- Node.js 18+ and npm
+- MongoDB Atlas account
+- Clerk account (authentication)
+- Stream account (video/chat)
+- Judge0 API key (code execution)
 
-### Session Management System
-- Create coding practice sessions with detailed problem descriptions
-- Categorize sessions by difficulty level (Easy, Medium, Hard)
-- Join available sessions with automatic capacity management (max 2 participants)
-- End sessions and mark as completed with timestamp tracking
-- Real-time session status updates and availability indicators
-- Session ownership and participant tracking
+### Installation
 
-### Interactive Dashboard
-- Personalized welcome screen with user-specific statistics
-- Overview of active sessions with quick access
-- Recent sessions history with filtering capabilities
-- Performance metrics and progress visualization
-- Quick action buttons for creating and joining sessions
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/BhagyaSRathore/Talent-IQ.git
+   cd Talent-IQ
+   ```
 
-### Session Browser & Discovery
-- Browse all active sessions with pagination support
-- Real-time search functionality by problem name
-- Multi-level filtering by difficulty (Easy, Medium, Hard, All)
-- Live availability status indicators
-- One-click join functionality with validation
-- Responsive card-based layout for optimal viewing
+2. **Install dependencies**
+   ```bash
+   # Install backend dependencies
+   cd backend
+   npm install
 
-### History & Analytics
-- Comprehensive view of completed sessions
-- Statistics breakdown by difficulty level
-- Detailed session information including timestamps and participants
-- Progress tracking over time with visual indicators
-- Export capabilities for personal records
+   # Install frontend dependencies
+   cd ../frontend
+   npm install
+   ```
 
----
+3. **Configure environment variables**
 
-## 🔒 Security & Best Practices
+   Backend (`backend/.env`):
+   ```env
+   PORT=5000
+   NODE_ENV=development
+   
+   # MongoDB
+   DB_URL=mongodb+srv://username:password@cluster.mongodb.net/talentiq
+   
+   # Clerk Authentication
+   CLERK_PUBLISHABLE_KEY=pk_test_your_key
+   CLERK_SECRET_KEY=sk_test_your_key
+   
+   # Stream SDK
+   STREAM_API_KEY=your_stream_key
+   STREAM_API_SECRET=your_stream_secret
+   
+   # Judge0 (Optional)
+   JUDGE0_API_URL=https://judge0-ce.p.rapidapi.com
+   RAPIDAPI_KEY=your_rapidapi_key
+   
+   # CORS
+   CLIENT_URL=http://localhost:5173
+   
+   # JWT
+   JWT_SECRET=your_secure_random_secret_minimum_32_chars
+   ```
 
-- **Authentication**: Enterprise-grade authentication with Clerk SDK
-- **Authorization**: Role-based access control for API endpoints
-- **Data Protection**: Secure password hashing and encryption
-- **API Security**: Protected routes with JWT validation middleware
-- **CORS Configuration**: Controlled cross-origin resource sharing
-- **Environment Variables**: Sensitive data protection with .env files
-- **Input Validation**: Server-side validation and sanitization
-- **Error Handling**: Comprehensive error handling without exposing sensitive information
-- **Database Security**: MongoDB connection with authentication and encryption
+   Frontend (`frontend/.env`):
+   ```env
+   VITE_CLERK_PUBLISHABLE_KEY=pk_test_your_key
+   VITE_API_URL=http://localhost:5000/api
+   VITE_STREAM_API_KEY=your_stream_key
+   ```
 
----
+   See `.env.example` files in both directories for detailed setup instructions.
 
-## 🎯 API Endpoints
+4. **Seed the database** (optional)
+   ```bash
+   cd backend
+   npm run seed:problems
+   ```
 
-### Authentication
-- `GET /api/chat/token` - Get Stream chat token
+5. **Start the development servers**
+   ```bash
+   # Terminal 1 - Backend
+   cd backend
+   npm run dev
+
+   # Terminal 2 - Frontend
+   cd frontend
+   npm run dev
+   ```
+
+6. **Access the application**
+   - Frontend: http://localhost:5173
+   - Backend: http://localhost:5000
+
+## API Endpoints
 
 ### Sessions
-- `POST /api/sessions` - Create new session
-- `GET /api/sessions/active` - Get all active sessions
+- `POST /api/sessions` - Create session
+- `GET /api/sessions/active` - Get active sessions
 - `GET /api/sessions/my-recent` - Get user's recent sessions
 - `GET /api/sessions/:id` - Get session by ID
-- `POST /api/sessions/:id/join` - Join a session
-- `POST /api/sessions/:id/end` - End a session
+- `POST /api/sessions/:id/join` - Join session
+- `POST /api/sessions/:id/end` - End session
 
-### Health Check
-- `GET /health` - Server health status
+### Problems
+- `GET /api/problems` - List all problems
+- `GET /api/problems/random` - Get random problem
+- `GET /api/problems/:id` - Get problem by ID
+- `GET /api/problems/categories` - Get problem categories
 
----
+### Code Execution
+- `POST /api/execute/run` - Run code without saving
+- `POST /api/execute/submit` - Submit and save code
+- `GET /api/execute/submissions/:sessionId` - Get session submissions
 
-## 🌟 Roadmap & Future Enhancements
+### Chat & Video
+- `GET /api/chat/token` - Get Stream authentication token
 
-### Phase 1 (Planned)
-- [ ] Live code editor integration with syntax highlighting (Monaco Editor)
-- [ ] Real-time collaborative editing with operational transformation
-- [ ] Code execution environment with multiple language support
+## Security Features
 
-### Phase 2 (Planned)
-- [ ] Video calling integration using WebRTC or Stream SDK
-- [ ] Real-time chat messaging with typing indicators
-- [ ] Screen sharing capability for better collaboration
+- Clerk-based authentication with JWT validation
+- Rate limiting on API endpoints (stricter limits on code execution)
+- MongoDB query sanitization to prevent injection
+- Helmet.js security headers
+- CORS configuration with credential support
+- Input validation and sanitization middleware
+- Secure environment variable management
 
-### Phase 3 (Planned)
-- [ ] Interactive whiteboard for system design discussions
-- [ ] Session recording and playback functionality
-- [ ] AI-powered code review and feedback system
+## Current Limitations
 
-### Phase 4 (Planned)
-- [ ] Peer rating and feedback system
-- [ ] Email notifications for session invites and updates
-- [ ] Mobile application (React Native)
-- [ ] Advanced analytics and insights dashboard
+- **Code execution requires Judge0 API key**: Without it, code can be written collaboratively but not executed
+- **Video/chat requires Stream API keys**: Platform works without them, but video and chat features will be disabled
+- **Session cleanup**: No automatic cleanup of abandoned sessions (manual deletion required)
+- **Whiteboard**: Not yet implemented
+- **Session recordings**: Not currently supported
 
----
+## Deployment
 
-## 📊 Performance & Optimization
+The application is configured for deployment on Render:
 
-- **Fast Build Times**: Vite's lightning-fast HMR for instant feedback during development
-- **Optimized Bundles**: Code splitting and tree shaking for minimal bundle sizes
-- **Database Optimization**: Indexed queries and efficient data modeling with Mongoose
-- **Responsive Design**: Mobile-first approach with TailwindCSS utilities
-- **Smooth Animations**: Hardware-accelerated CSS transitions and transforms
-- **Lazy Loading**: Component-level code splitting for faster initial loads
-- **Caching Strategy**: Efficient API response caching for improved performance
+- **Frontend**: Static site with Vite build
+- **Backend**: Node.js service with MongoDB Atlas connection
+- **Build command**: `npm run build`
+- **Start command**: `npm start`
 
----
+See `render.yaml` for complete deployment configuration.
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome. Please fork the repository and submit a pull request with a clear description of changes.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## License
 
----
+ISC License
 
-## 📝 License
+## Author
 
-This project is licensed under the ISC License.
+**Bhagya S Rathore**  
+GitHub: [@BhagyaSRathore](https://github.com/BhagyaSRathore)
 
----
-
-## 👤 Author
-
-**Bhagya S Rathore**
-
-- GitHub: [@BhagyaSRathore](https://github.com/BhagyaSRathore)
-- LinkedIn: [Connect with me](https://linkedin.com/in/bhagya-rathore)
-
----
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Clerk](https://clerk.com) - Authentication
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - Database
-- [TailwindCSS](https://tailwindcss.com) - Styling
-- [React](https://react.dev) - Frontend framework
-- [Express.js](https://expressjs.com) - Backend framework
-
----
-
-## 📞 Support
-
-For support, open an issue on GitHub or contact via LinkedIn.
-
----
-
-<div align="center">
-
-**[⬆ Back to Top](#-talent-iq)**
-
-Made with ❤️ by Bhagya Singh Rathore
-
-</div>
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - Database hosting
+- [Stream](https://getstream.io) - Video and chat infrastructure
+- [Judge0](https://judge0.com) - Code execution API
+- [Yjs](https://docs.yjs.dev) - Real-time collaboration framework

@@ -53,8 +53,15 @@ function App() {
           <SessionProvider>
             <Router>
               <div className="min-h-screen bg-background">
+                {/* Skip to main content for keyboard navigation */}
+                <a href="#main-content" className="skip-link">
+                  Skip to main content
+                </a>
+                
                 <Navbar />
-                <Routes>
+                
+                <main id="main-content">
+                  <Routes>
                   {/* Public Routes */}
                   <Route path="/" element={<LandingPage />} />
                   <Route
@@ -127,6 +134,7 @@ function App() {
                   {/* Catch all */}
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
+                </main>
               </div>
             </Router>
           </SessionProvider>

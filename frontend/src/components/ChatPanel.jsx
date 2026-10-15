@@ -7,11 +7,10 @@ import {
   MessageList,
   MessageInput,
   Thread,
-  useCreateChatClient,
 } from 'stream-chat-react';
 import 'stream-chat-react/dist/css/v2/index.css';
 import { chatAPI } from '../config/api';
-import { MessageSquare, Loader2, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY;
 
@@ -85,10 +84,10 @@ const ChatPanel = ({ sessionId, callId, user }) => {
 
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center bg-slate-900">
+      <div className="h-full flex items-center justify-center bg-background">
         <div className="text-center">
-          <Loader2 className="h-8 w-8 text-blue-400 animate-spin mx-auto mb-2" />
-          <p className="text-slate-300 text-sm">Loading chat...</p>
+          <Loader2 className="h-8 w-8 text-primary animate-spin mx-auto mb-2" />
+          <p className="text-text-secondary text-sm">Connecting...</p>
         </div>
       </div>
     );
@@ -96,19 +95,21 @@ const ChatPanel = ({ sessionId, callId, user }) => {
 
   if (error) {
     return (
-      <div className="h-full flex items-center justify-center bg-slate-900 p-4">
-        <div className="text-center">
-          <AlertCircle className="h-12 w-12 text-yellow-400 mx-auto mb-3" />
-          <h3 className="text-sm font-semibold text-white mb-2">Chat Unavailable</h3>
-          <p className="text-xs text-slate-400 mb-3">{error}</p>
-          <div className="text-xs text-slate-500 bg-slate-800 p-3 rounded max-w-xs">
-            <p className="font-semibold mb-1">Setup required:</p>
-            <p className="text-left">
-              1. Get API keys from getstream.io<br />
-              2. Configure VITE_STREAM_API_KEY<br />
-              3. Configure STREAM_API_KEY & STREAM_API_SECRET
-            </p>
+      <div className="h-full flex items-center justify-center bg-background p-4">
+        <div className="text-center max-w-xs">
+          <div className="w-12 h-12 bg-warning/10 rounded-full flex items-center justify-center mb-3 mx-auto">
+            <AlertCircle className="h-6 w-6 text-warning" />
           </div>
+          <h3 className="text-sm font-semibold text-text-primary mb-2">Chat Setup Required</h3>
+          <p className="text-xs text-text-secondary mb-3">{error}</p>
+          <details className="text-xs text-text-tertiary bg-surface-elevated p-3 rounded-lg border border-border text-left">
+            <summary className="font-semibold cursor-pointer mb-2">Setup Steps</summary>
+            <ol className="space-y-1 list-decimal list-inside text-xs">
+              <li>Get API keys from getstream.io</li>
+              <li>Configure environment variables</li>
+              <li>Restart servers</li>
+            </ol>
+          </details>
         </div>
       </div>
     );
@@ -116,8 +117,8 @@ const ChatPanel = ({ sessionId, callId, user }) => {
 
   if (!chatClient || !channel) {
     return (
-      <div className="h-full flex items-center justify-center bg-slate-900">
-        <p className="text-slate-400 text-sm">Initializing chat...</p>
+      <div className="h-full flex items-center justify-center bg-background">
+        <p className="text-text-tertiary text-sm">Initializing chat...</p>
       </div>
     );
   }
