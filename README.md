@@ -6,9 +6,6 @@ A collaborative coding interview practice platform enabling developers to conduc
 
 TALENT-IQ provides an integrated environment for practicing coding interviews with peers. The platform combines secure authentication, real-time collaboration tools, and a curated problem set across multiple difficulty levels.
 
-**Live Demo:** [https://talentiq-frontend-jjsx.onrender.com](https://talentiq-frontend-jjsx.onrender.com)  
-*Note: Initial load may take 30-60 seconds on free hosting tier.*
-
 ## Features
 
 **Session Management**
