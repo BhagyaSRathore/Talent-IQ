@@ -125,22 +125,6 @@ TALENT-IQ/
 
 ---
 
-## 📸 Screenshots
-
-### Landing Page
-Beautiful gradient-based design with clear call-to-action buttons and feature highlights.
-
-### Dashboard
-Personalized dashboard showing active sessions, statistics, and quick actions.
-
-### Session Browser
-Browse and filter available coding sessions with real-time status updates.
-
-### Session Room
-Collaborative space for practicing coding interviews (video/chat features ready for integration).
-
----
-
 ## 🔒 Security & Best Practices
 
 - **Authentication**: Enterprise-grade authentication with Clerk SDK
@@ -257,6 +241,6 @@ For support, open an issue on GitHub or contact via LinkedIn.
 
 **[⬆ Back to Top](#-talent-iq)**
 
-Made with ❤️ by Bhagya S Rathore
+Made with ❤️ by Bhagya Singh Rathore
 
 </div>
