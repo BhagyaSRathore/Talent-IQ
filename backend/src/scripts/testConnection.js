@@ -1,5 +1,14 @@
 import 'dotenv/config';
+import dns from 'dns';
 import mongoose from 'mongoose';
+
+// Fix: Node.js may resolve DNS through 127.0.0.1 (no local daemon → ECONNREFUSED).
+// Override to Google DNS so Atlas SRV lookups always work.
+const currentDns = dns.getServers();
+if (currentDns.length === 1 && currentDns[0] === '127.0.0.1') {
+  console.log('⚠️  Overriding broken DNS (127.0.0.1) → 8.8.8.8 for Atlas SRV lookup');
+  dns.setServers(['8.8.8.8', '8.8.4.4']);
+}
 
 async function testConnection() {
   console.log('🔍 Testing MongoDB Connection...\n');
@@ -44,7 +53,8 @@ async function testConnection() {
       console.log('      → Network Access → Add your current IP or use 0.0.0.0/0 for testing');
       console.log('   2. Verify cluster is running (not paused)');
       console.log('   3. Check your internet connection');
-      console.log('   4. Try pinging: cluster0.lroe4jo.mongodb.net');
+      console.log('   4. Check Node.js DNS: run: node -e "require(\'dns\').getServers().forEach(s=>console.log(s))"');
+      console.log('   5. If DNS shows 127.0.0.1 only, add DNS_SERVER=8.8.8.8 to backend/.env');
     } else if (error.name === 'MongoServerError' && error.code === 8000) {
       console.log('\n💡 Authentication failed - check username/password');
     }

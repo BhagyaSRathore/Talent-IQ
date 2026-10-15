@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dns from 'dns';
 import mongoose from 'mongoose';
 import Problem from '../models/Problem.js';
 
@@ -8,6 +9,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
+// Fix: Node.js may resolve DNS through 127.0.0.1 (no local daemon → ECONNREFUSED).
+// Override to Google DNS so Atlas SRV lookups always work.
+const currentDns = dns.getServers();
+if (currentDns.length === 1 && currentDns[0] === '127.0.0.1') {
+  console.log('⚠️  Overriding broken DNS (127.0.0.1) → 8.8.8.8 for Atlas SRV lookup');
+  dns.setServers(['8.8.8.8', '8.8.4.4']);
+}
 
 const sampleProblems = [
   {
